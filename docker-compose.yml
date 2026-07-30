@@ -1,0 +1,66 @@
+services:
+  app:
+    build: .
+    container_name: industrial-rag-app
+    ports:
+      - "5000:5000"
+    volumes:
+      - .env:/app/.env
+    depends_on:
+      - lgtm
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: industrial-rag-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: portfolio
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  # Local S3-compatible object storage
+  minio:
+    image: minio/minio:latest
+    container_name: industrial-rag-minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - "9000:9000"   # S3 API
+      - "9001:9001"   # Web console
+    volumes:
+      - minio-data:/data
+    restart: unless-stopped
+
+  # All-in-one OpenTelemetry + Loki + Grafana stack
+  lgtm:
+    image: grafana/otel-lgtm:latest
+    ports:
+      - "3000:3000" # Grafana UI
+      - "4317:4317" # OTLP gRPC receiver
+      - "4318:4318" # OTLP HTTP receiver
+      - "3100:3100" # Loki HTTP API (used by Promtail)
+    volumes:
+      - lgtm-data:/var/lib/otel-lgtm
+    restart: unless-stopped
+
+  # Promtail collects container stdout logs and sends them to Loki in the lgtm stack
+  promtail:
+    image: grafana/promtail:2.9.0
+    depends_on:
+      - lgtm
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - ./promtail-config.yaml:/etc/promtail/config.yaml:ro
+    command: -config.file=/etc/promtail/config.yaml
+    restart: unless-stopped
+
+volumes:
+  lgtm-data:
+  pgdata:
+  minio-data:

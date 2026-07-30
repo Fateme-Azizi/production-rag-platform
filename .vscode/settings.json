@@ -1,0 +1,25 @@
+{
+  "[python]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit",
+      "source.organizeImports": "always"
+    },
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  },
+  "notebook.formatOnSave.enabled": true,
+  "notebook.codeActionsOnSave": {
+    "notebook.source.fixAll": "explicit",
+    "notebook.source.organizeImports": "explicit"
+  },
+  "mypy-type-checker.preferDaemon": true,
+  "mypy-type-checker.args": ["--config-file=pyproject.toml", "--strict"],
+  "mypy-type-checker.reportingScope": "workspace",
+  "mypy-type-checker.severity": {
+    "error": "Error",
+    "warning": "Warning"
+  },
+  "git.inputValidationSubjectLength": 50,
+  "git.inputValidationLength": 72,
+  "editor.formatOnType": true
+}
