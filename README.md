@@ -19,7 +19,7 @@ This project focuses on production-oriented architecture, evaluation engineering
 ---
 
 ## Technology Stack  
-####(will be updated after each stage)
+#### (will be updated after each stage)
 
 | Layer | Technology |
 |--------|------------|
