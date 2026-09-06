@@ -164,24 +164,24 @@ The project is being developed incrementally.
 ### Phase 1 — Foundation
 
 - [x] Initial system architecture
-- [ ] Project structure
-- [ ] Dockerized development environment
-- [ ] PostgreSQL setup
-- [ ] Object storage integration
+- [x] Project structure
+- [x] Dockerized development environment
+- [x] PostgreSQL setup
+- [x] Object storage integration
 
 ### Phase 2 — Ingestion
 
-- [ ] Document upload
-- [ ] PDF / DOCX / TXT processing
-- [ ] Document chunking
-- [ ] Embedding generation
-- [ ] Vector storage
-- [ ] Document metadata
+- [x] Document upload
+- [x] PDF / DOCX / TXT processing
+- [x] Document chunking
+- [x] Embedding generation
+- [x] Vector storage
+- [x] Document metadata
 
 ### Phase 3 — Retrieval & RAG
 
-- [ ] Semantic retrieval
-- [ ] Retrieval pipeline
+- [x] Semantic retrieval
+- [x] Retrieval pipeline
 - [ ] Context construction
 - [ ] LLM integration
 - [ ] Source-aware responses
