@@ -37,7 +37,28 @@ The architecture is intentionally modular so that individual components can be t
 
 ## Architecture
 
-![System Architecture](docs/architecture.png)
+```mermaid
+flowchart LR
+    Client[Client]
+
+    Storage[(Object Storage<br/>S3)]
+    Ingestion[Ingestion Engine]
+    VectorDB[(Vector Database<br/>pgvector)]
+    RAG[RAG Engine]
+    Postgres[(PostgreSQL)]
+    Evaluation[Evaluation]
+    Monitoring[Monitoring]
+
+    Client -->|Question| RAG
+    RAG -->|Retrieve context| VectorDB
+    RAG -->|Read / write| Postgres
+    RAG -->|Generated response| Client
+
+    Storage -->|Documents| Ingestion
+    Ingestion -->|Chunks + embeddings| VectorDB
+
+    RAG -->|Question + response| Evaluation
+    Evaluation -->|Metrics / signals| Monitoring
 
 The current architecture separates the main responsibilities of the system into distinct components:
 
