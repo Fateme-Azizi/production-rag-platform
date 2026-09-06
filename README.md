@@ -34,33 +34,12 @@ The platform is designed to support an end-to-end knowledge retrieval workflow:
 The architecture is intentionally modular so that individual components can be tested, evaluated, and improved independently.
 
 ---
-## System Architecture
 
-```mermaid
-flowchart LR
-    Client["Client"]
+## Architecture
 
-    Storage[("Object Storage<br/>S3")]
-    Ingestion["Ingestion Engine"]
-    VectorDB[("Vector Database<br/>pgvector")]
-    RAG["RAG Engine"]
-    Postgres[("PostgreSQL")]
-    Evaluation["Evaluation"]
-    Monitoring["Monitoring"]
+![System Architecture](docs/architecture.png)
 
-    Client -->|Question| RAG
-    RAG -->|Retrieve context| VectorDB
-    RAG -->|Read / write| Postgres
-    RAG -->|Response| Client
-
-    Storage -->|Documents| Ingestion
-    Ingestion -->|Chunks + embeddings| VectorDB
-
-    RAG -->|Question + response| Evaluation
-    Evaluation -->|Metrics / signals| Monitoring
-```
-
-The current architecture is designed around separate ingestion, retrieval, generation, evaluation, and monitoring components.
+The current architecture separates the main responsibilities of the system into distinct components:
 
 - **Object Storage** — stores the original documents and source artifacts.
 - **Ingestion Engine** — reads documents, processes them, creates retrieval-ready representations, and persists the resulting data.
